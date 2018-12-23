@@ -105,7 +105,9 @@
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:nil attribute:NSLayoutAttributeWidth
                                                                           multiplier:1.0 constant:buttonWidth];
-        
+        heightConstraint.priority = UILayoutPriorityDefaultHigh;
+        widthConstraint.priority = UILayoutPriorityDefaultHigh;
+      
         NSLayoutConstraint *oldHeight = objc_getAssociatedObject(self, buttonHeightConstraint);
         if (oldHeight) {
             [self removeConstraint:oldHeight];
