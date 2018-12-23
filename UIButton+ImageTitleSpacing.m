@@ -7,11 +7,16 @@
 //
 
 #import "UIButton+ImageTitleSpacing.h"
+#import <objc/runtime.h>
+
+#define buttonHeightConstraint @"buttonHeightConstraint"
+#define buttonWidthtConstraint @"buttonWidthtConstraint"
 
 @implementation UIButton (ImageTitleSpacing)
 
 - (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style
-                        imageTitleSpace:(CGFloat)space {
+                        imageTitleSpace:(CGFloat)space
+                         constraintSize:(BOOL)constraintSize {
     /**
      *  知识点：titleEdgeInsets是title相对于其上下左右的inset，跟tableView的contentInset是类似的，
      *  如果只有title，那它上下左右都是相对于button的，image也是一样；
@@ -42,8 +47,8 @@
     switch (style) {
         case GLButtonEdgeInsetsStyleTop:
         {            
-            imageEdgeInsets = UIEdgeInsetsMake(-titleHeight-space/2.0, 0, 0, -titleWidth);
-            labelEdgeInsets = UIEdgeInsetsMake(0, -imageWith, -imageHeight-space/2.0, 0);
+            imageEdgeInsets = UIEdgeInsetsMake(-titleHeight-space, 0, 0, -titleWidth);
+            labelEdgeInsets = UIEdgeInsetsMake(0, -imageWith, -imageHeight-space, 0);
         }
             break;
         case GLButtonEdgeInsetsStyleLeft:
@@ -54,8 +59,8 @@
             break;
         case GLButtonEdgeInsetsStyleBottom:
         {
-            imageEdgeInsets = UIEdgeInsetsMake(0, 0, -titleHeight-space/2.0, -titleWidth);
-            labelEdgeInsets = UIEdgeInsetsMake(-imageHeight-space/2.0, -imageWith, 0, 0);
+            imageEdgeInsets = UIEdgeInsetsMake(0, 0, -titleHeight-space, -titleWidth);
+            labelEdgeInsets = UIEdgeInsetsMake(-imageHeight-space, -imageWith, 0, 0);
         }
             break;
         case GLButtonEdgeInsetsStyleRight:
@@ -79,11 +84,11 @@
         case GLButtonEdgeInsetsStyleTop:
         case GLButtonEdgeInsetsStyleBottom:
             buttonHeight = imageHeight + space + titleHeight;
-            buttonWidth = imageWith > titleWidth ? imageWith : titleWidth;
+            buttonWidth = MAX(imageWith, titleWidth);
             break;
         case GLButtonEdgeInsetsStyleLeft:
         case GLButtonEdgeInsetsStyleRight:
-            buttonHeight = imageHeight > titleHeight ? imageHeight : titleHeight;
+            buttonHeight = MAX(imageHeight, titleHeight);
             buttonWidth = imageWith + space + titleWidth;
             break;
         default:
@@ -91,17 +96,30 @@
     }
     
     // 6. 添加宽高约束
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil attribute:NSLayoutAttributeHeight
-                                                                       multiplier:1.0 constant:buttonHeight];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil attribute:NSLayoutAttributeWidth
-                                                                      multiplier:1.0 constant:buttonWidth];
-    
-    [self addConstraint:heightConstraint];
-    [self addConstraint:widthConstraint];
+    if (constraintSize) {
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:nil attribute:NSLayoutAttributeHeight
+                                                                           multiplier:1.0 constant:buttonHeight];
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil attribute:NSLayoutAttributeWidth
+                                                                          multiplier:1.0 constant:buttonWidth];
+        
+        NSLayoutConstraint *oldHeight = objc_getAssociatedObject(self, buttonHeightConstraint);
+        if (oldHeight) {
+            [self removeConstraint:oldHeight];
+        }
+        [self addConstraint:heightConstraint];
+        objc_setAssociatedObject(self, buttonHeightConstraint, heightConstraint, OBJC_ASSOCIATION_RETAIN);
+        
+        NSLayoutConstraint *oldWidth = objc_getAssociatedObject(self, buttonWidthtConstraint);
+        if (oldWidth) {
+            [self removeConstraint:oldWidth];
+        }
+        [self addConstraint:widthConstraint];
+        objc_setAssociatedObject(self, buttonWidthtConstraint, widthConstraint, OBJC_ASSOCIATION_RETAIN);
+    }
 }
 
 @end
