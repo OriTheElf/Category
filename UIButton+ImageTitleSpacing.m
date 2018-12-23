@@ -14,9 +14,26 @@
 
 @implementation UIButton (ImageTitleSpacing)
 
+- (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style imageTitleSpace:(CGFloat)space {
+    [self layoutButtonWithEdgeInsetsStyle:style imageTitleSpace:space constraintSize:YES sizePriority:UILayoutPriorityRequired];
+}
+
+- (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style imageTitleSpace:(CGFloat)space sizePriority:(UILayoutPriority)priority {
+    [self layoutButtonWithEdgeInsetsStyle:style imageTitleSpace:space constraintSize:YES sizePriority:priority];
+}
+
+/**
+ 设置button的titleLabel和imageView的布局样式，及间距
+ 
+ @param style titleLabel和imageView的布局样式
+ @param space titleLabel和imageView的间距
+ @param constraintSize 是否添加宽高的约束?
+ @param priority 宽高约束的优先级，constraintSize为YES时有效
+ */
 - (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style
                         imageTitleSpace:(CGFloat)space
-                         constraintSize:(BOOL)constraintSize {
+                         constraintSize:(BOOL)constraintSize
+                           sizePriority:(UILayoutPriority)priority {
     /**
      *  知识点：titleEdgeInsets是title相对于其上下左右的inset，跟tableView的contentInset是类似的，
      *  如果只有title，那它上下左右都是相对于button的，image也是一样；
@@ -105,9 +122,8 @@
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:nil attribute:NSLayoutAttributeWidth
                                                                           multiplier:1.0 constant:buttonWidth];
-        heightConstraint.priority = UILayoutPriorityDefaultHigh;
-        widthConstraint.priority = UILayoutPriorityDefaultHigh;
-      
+        heightConstraint.priority = priority;
+        widthConstraint.priority = priority;
         NSLayoutConstraint *oldHeight = objc_getAssociatedObject(self, buttonHeightConstraint);
         if (oldHeight) {
             [self removeConstraint:oldHeight];

@@ -19,15 +19,38 @@ typedef NS_ENUM(NSUInteger, GLButtonEdgeInsetsStyle) {
 
 @interface UIButton (ImageTitleSpacing)
 
-/**
- 设置button的titleLabel和imageView的布局样式，及间距
 
+/**
+ 设置button的titleLabel和imageView的布局样式，及间距。（添加宽高约束：UILayoutPriorityRequired）
+ 
  @param style titleLabel和imageView的布局样式
  @param space titleLabel和imageView的间距
- @param constraintSize 是否添加宽高的约束?
+ */
+- (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style
+                        imageTitleSpace:(CGFloat)space;
+
+/**
+ 设置button的titleLabel和imageView的布局样式，及间距。（可设置优先级）
+ 
+ @param style titleLabel和imageView的布局样式
+ @param space titleLabel和imageView的间距
+ @param priority 宽高约束的优先级
  */
 - (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style
                         imageTitleSpace:(CGFloat)space
-                         constraintSize:(BOOL)constraintSize;
+                           sizePriority:(UILayoutPriority)priority;
+
+/**
+ 设置button的titleLabel和imageView的布局样式，及间距
+ 
+ @param style titleLabel和imageView的布局样式
+ @param space titleLabel和imageView的间距
+ @param constraintSize 是否添加宽高的约束?
+ @param priority 宽高约束的优先级，constraintSize为YES时有效
+ */
+- (void)layoutButtonWithEdgeInsetsStyle:(GLButtonEdgeInsetsStyle)style
+                        imageTitleSpace:(CGFloat)space
+                         constraintSize:(BOOL)constraintSize
+                           sizePriority:(UILayoutPriority)priority;
 
 @end
