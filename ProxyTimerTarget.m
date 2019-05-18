@@ -1,6 +1,5 @@
 //
 //  ProxyTimerTarget.m
-//  Test
 //
 //  Created by Ori on 2019/5/12.
 //  Copyright © 2019 Ori. All rights reserved.
@@ -10,9 +9,9 @@
 
 @interface ProxyTimerTarget ()
 // 目标对象
-@property (nonatomic,weak) id target;
+@property (nonatomic, weak) id target;
 // 目标方法
-@property (nonatomic,assign) SEL selector;
+@property (nonatomic, assign) SEL selector;
 @end
 
 @implementation ProxyTimerTarget
