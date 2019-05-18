@@ -1,6 +1,5 @@
 //
 //  ProxyTimerTarget.h
-//  Test
 //
 //  Created by Ori on 2019/5/12.
 //  Copyright © 2019 Ori. All rights reserved.
@@ -14,5 +13,5 @@
  创建弱引用的Timer
 
  */
-+ (NSTimer *)scheduledTimerWithTimerInterval:(NSTimeInterval)interval target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats;
++ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)interval target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)repeats;
 @end
