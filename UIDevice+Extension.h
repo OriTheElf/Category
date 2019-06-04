@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
  判断设备是否有刘海
  */
 @property (class, readonly) BOOL hasBang;
+
+/**
+ 刘海屏HomeBar高度
+ */
+@property (class, readonly) CGFloat homeBarHeight;
 @end
 
 NS_ASSUME_NONNULL_END

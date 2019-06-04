@@ -23,4 +23,11 @@
     }
 }
 
++ (CGFloat)homeBarHeight {
+    if (self.hasBang) {
+        return 34.0;
+    }
+    return 0.0;
+}
+
 @end
