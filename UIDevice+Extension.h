@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
  刘海屏HomeBar高度
  */
 @property (class, readonly) CGFloat homeBarHeight;
+
+/**
+ 状态栏高度
+ */
+@property (class, readonly) CGFloat statusBarHeight;
 @end
 
 NS_ASSUME_NONNULL_END
