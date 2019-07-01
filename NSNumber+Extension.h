@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSNumber (Extension)
 
+/**
+ 返回纯数字的小数字符串.
+ */
 @property (nonatomic, readonly) NSString *decimalString;
 
 @end

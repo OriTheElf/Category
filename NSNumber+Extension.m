@@ -13,6 +13,7 @@
 - (NSString *)decimalString {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    formatter.groupingSeparator = @"";
     return [formatter stringFromNumber:self];
 }
 
