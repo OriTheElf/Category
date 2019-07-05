@@ -10,11 +10,21 @@
 
 @implementation NSNumber (Extension)
 
+- (NSString *)groupedDecimalString {
+    NSNumberFormatter *formatter = [self numberFormatter];
+    return [formatter stringFromNumber:self];
+}
+
 - (NSString *)decimalString {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumberFormatter *formatter = [self numberFormatter];
     formatter.groupingSeparator = @"";
     return [formatter stringFromNumber:self];
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    return formatter;
 }
 
 @end
